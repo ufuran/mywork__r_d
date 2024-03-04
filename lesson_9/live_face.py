@@ -12,6 +12,7 @@ Created on Sat Feb 12 17:04:41 2022
 # import the opencv library
 import cv2
 import dlib
+import threading
 
 # Let's load the detector
 detector = dlib.get_frontal_face_detector()
@@ -25,21 +26,33 @@ def rect_to_bb(rect):
     return (x, y, w, h)
     
 # Define a video capture object
-vid = cv2.VideoCapture(0)
-  
+vid = cv2.VideoCapture(1)
+i = 0
+before_rects = []
+# detect faces in the gray scale image in thread
+def detect_faces(gray):
+    global before_rects
+    rects = detector(gray, 1)
+    before_rects = rects
+
 while(True):
-      
     # Capture the video frame by frame
     ret, frame = vid.read()
-    rects = detector(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY), 1)
-    
-    # Draw rectangle around each face        
-    for rect in rects:            
+    frame = cv2.flip(frame, 1)
+    if i % 10 == 0:
+        # thread for detecting faces
+        t = threading.Thread(target=detect_faces, args=(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY),))
+        t.start()
+        # rects = detector(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY), 1)
+        # # Draw rectangle around each face \
+    for rect in before_rects:            
         x, y, w, h = rect_to_bb(rect)
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 3)        
-      
+        
     cv2.imshow('frame', frame)
-      
+    i += 1
+    if i == 100:
+        i = 0
     # The 'q' button is set as the quitting button
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
