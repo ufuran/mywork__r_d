@@ -10,7 +10,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-video = cv2.VideoCapture("slow_traffic_small.mp4")
+video = cv2.VideoCapture("homework/road_1min.mp4")
 
 # ShiTomasi corner detection
 config_st = {'maxCorners': 100,
@@ -60,10 +60,13 @@ while True:
         target = cv2.circle(target, (int(x_src), int(y_src)), 5, color[i].tolist(), -1)
 
     result = cv2.add(target, mask)
-    plt.imshow(cv2.cvtColor(result, cv2.COLOR_BGR2RGB))
-    plt.draw(), plt.show()
-    plt.waitforbuttonpress(1/25)
-    plt.clf()
+    cv2.imshow('frame', result)
+    cv2.waitKey(1)
+    # plt.imshow(cv2.cvtColor(result, cv2.COLOR_BGR2RGB))
+    # plt.show()
+    # plt.draw(), plt.show()
+    # plt.waitforbuttonpress(1/25)
+    # plt.clf()
     
     # Update the previous frame and previous points
     src_gray = np.copy(dst_gray)

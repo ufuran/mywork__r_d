@@ -39,13 +39,13 @@ while(True):
     # Capture the video frame by frame
     ret, frame = vid.read()
     frame = cv2.flip(frame, 1)
-    if i % 10 == 0:
+    if i % 5 == 0:
         # thread for detecting faces
         t = threading.Thread(target=detect_faces, args=(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY),))
         t.start()
         # rects = detector(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY), 1)
         # # Draw rectangle around each face \
-    for rect in before_rects:            
+    for rect in before_rects:
         x, y, w, h = rect_to_bb(rect)
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 3)        
         
