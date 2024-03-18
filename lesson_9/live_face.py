@@ -26,7 +26,7 @@ def rect_to_bb(rect):
     return (x, y, w, h)
     
 # Define a video capture object
-vid = cv2.VideoCapture(1)
+vid = cv2.VideoCapture(0)
 i = 0
 before_rects = []
 # detect faces in the gray scale image in thread
@@ -41,8 +41,11 @@ while(True):
     frame = cv2.flip(frame, 1)
     if i % 5 == 0:
         # thread for detecting faces
+        # print(frame)
+        # if frame:
         t = threading.Thread(target=detect_faces, args=(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY),))
         t.start()
+        # t.join()
         # rects = detector(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY), 1)
         # # Draw rectangle around each face \
     for rect in before_rects:
