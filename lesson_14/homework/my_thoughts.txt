@@ -1,0 +1,31 @@
+Train Acc      0.7097777724266052
+Validation Acc 0.6805999875068665
+
+попробовал добавить еще с теми же фильтрами
+net = Conv2D(32, kernel_size=(3, 3), activation="relu")(net)
+net = MaxPooling2D(pool_size=(2, 2))(net)
+
+получил 
+Train Acc      0.6834222078323364
+Validation Acc 0.6621999740600586
+
+
+вернулся к исходным и добавил больше фильтров
+net = Conv2D(64, kernel_size=(3, 3), activation="relu")(net)
+net = MaxPooling2D(pool_size=(2, 2))(net)
+
+получил
+Train Acc      0.732200026512146
+Validation Acc 0.6679999828338623
+
+уже лучше
+убрал первый MaxPooling2D
+стало дольше обучаться
+
+получил
+Train Acc      0.8387110829353333
+Validation Acc 0.7031999826431274
+
+добавил dropout 
+Train Acc      0.6819777488708496
+Validation Acc 0.6733999848365784
